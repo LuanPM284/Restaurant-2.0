@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pictures</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <style>
+        .gallery img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-white">
+        <div class="container-fluid text">
+            <a class="navbar-brand text-center" href="index.html">
+                <img src="./assets/images/ResStars.webp" alt="Logo"
+                    class=" d-inline-block align-text-top rounded float-right" width="60vh" height="55vh">
+            </a>
+            <ul class="navbar-nav flex">
+                <li class=" nav-item">
+                    <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-5 p-3"
+                        href="menu.html">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-5 p-3"
+                        href="pictures.html">Pictures</a>
+                </li>
+                <li class="nav-item">
+                    <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-5 p-3"
+                        href="restaurants.html">Restaurants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-5 p-3"
+                        href="contacts.html">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<body class="bg-dark"">
+    <h3 class=" display-4 text-white text-center m-2">Experience our delicacies!</h3>
+    <h6 class="display-15 text-white text-center">"may not represent reality"</h6>
+    <div class="container my-5">
+        <div id="gallery" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <!-- Gallery images will be inserted here by JavaScript -->
+        </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-4">
+                <li class="page-item disabled" id="prev-page">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item active" id="page-1"><a class="page-link" href="#">1</a></li>
+                <li class="page-item" id="page-2"><a class="page-link" href="#">2</a></li>
+                <li class="page-item" id="page-3"><a class="page-link" href="#">3</a></li>
+                <li class="page-item" id="next-page">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        // Array of image sources (at least 10 images)
+        const images = [
+            './assets/images/01.png',
+            './assets/images/02.png',
+            './assets/images/03.png',
+            './assets/images/04.png',
+            './assets/images/05.png',
+            './assets/images/06.png',
+            './assets/images/07.png',
+            './assets/images/08.png',
+            './assets/images/09.png',
+            './assets/images/10.png'
+        ];
+
+        const imagesPerPage = 3;
+        let currentPage = 1;
+        const totalPages = Math.ceil(images.length / imagesPerPage);
+
+        // Function to render gallery images
+        function renderGallery() {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '';
+            const startIndex = (currentPage - 1) * imagesPerPage;
+            const endIndex = startIndex + imagesPerPage;
+            const imagesToDisplay = images.slice(startIndex, endIndex);
+            imagesToDisplay.forEach(src => {
+                const col = document.createElement('div');
+                col.classList.add('col');
+                col.innerHTML = `<div class="card">
+                                        <img src="${src}" class="card-img-top" alt="...">
+                                     </div>`;
+                gallery.appendChild(col);
+            });
+
+            // Update pagination
+            document.querySelectorAll('.page-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+
+            // Enable/disable prev/next buttons
+            document.getElementById('prev-page').classList.toggle('disabled', currentPage === 1);
+            document.getElementById('next-page').classList.toggle('disabled', currentPage === totalPages);
+        }
+
+        // Event listeners for pagination
+        document.getElementById('prev-page').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage > 1) {
+                currentPage--;
+                renderGallery();
+            }
+        });
+
+        document.getElementById('next-page').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderGallery();
+            }
+        });
+
+        document.querySelectorAll('.page-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageNum = parseInt(item.id.split('-')[1]);
+                if (pageNum) {
+                    currentPage = pageNum;
+                    renderGallery();
+                }
+            });
+        });
+
+        // Initial render
+        renderGallery();
+    </script>
+</body>
+<footer class="pt-3 mt-4 text-white border-top display-6">
+    © 3024 by Earth Years
+</footer>
+
+
+</html>
