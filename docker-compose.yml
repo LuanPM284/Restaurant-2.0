@@ -1,0 +1,28 @@
+version: '3' # docker version
+services:
+  www:
+    image: php:apache
+    volumes:
+      - "./:/var/www/html" #sync project with container web di ./ is my dir and : /var is the linux path
+      # local : docker
+    ports:
+      - 80:80
+  ## Mariadb service the way data will be handled
+  database:
+    image: mariadb
+    container_name: resto-database
+    restart: always
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d/ #This pulls out the .sql files, since docker erases all when turned off
+    env_file:
+      - ./docker.env
+
+  ## PhpMyAdmin a visual interface
+  myadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: resto-phpmyadmin
+    ports:
+      - 8081:80
+    restart: always
+    env_file:
+      - ./docker.env
