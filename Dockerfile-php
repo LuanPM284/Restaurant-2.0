@@ -1,0 +1,10 @@
+FROM php:7.4-apache
+
+# Install mysqli extension
+RUN docker-php-ext-install mysqli
+
+# Enable mysqli extension
+RUN docker-php-ext-enable mysqli
+
+# Install PDO MySQL extension
+RUN docker-php-ext-install pdo pdo_mysql
