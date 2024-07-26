@@ -1,0 +1,6 @@
+# ignore directory
+/mariadb_data
+# ignore files
+docker-compose.yml
+docker.env
+Dockerfile-php
